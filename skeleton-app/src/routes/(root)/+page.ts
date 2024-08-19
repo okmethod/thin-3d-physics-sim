@@ -14,9 +14,9 @@ export interface ContentButtonProps {
 
 const contents: Content[] = [
   {
-    title: "sample page",
+    title: "simple",
     action: "navigate",
-    route: "/example",
+    route: "/simple",
   },
   {
     title: "github repository",
