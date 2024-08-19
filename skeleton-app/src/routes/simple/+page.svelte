@@ -26,6 +26,14 @@
     const geometry = new THREE.BoxGeometry();
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     const cube = new THREE.Mesh(geometry, material);
+
+    // 立方体エッジの作成
+    const edges = new THREE.EdgesGeometry(geometry);
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    const line = new THREE.LineSegments(edges, lineMaterial);
+
+    // シーンに立方体を追加
+    cube.add(line);
     scene.add(cube);
 
     // ウィンドウサイズ変更時の処理
