@@ -36,6 +36,21 @@
     cube.add(line);
     scene.add(cube);
 
+    // ボールの作成
+    const ballGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const ballMaterial = new THREE.MeshBasicMaterial({ color: 0x0000bb });
+    const ball = new THREE.Mesh(ballGeometry, ballMaterial);
+    ball.position.set(2, 3, 0); // x=2, y=1, z=0
+    scene.add(ball);
+
+    // 地面の作成
+    const groundGeometry = new THREE.PlaneGeometry(10, 10);
+    const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x888888, side: THREE.DoubleSide });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = Math.PI / 2;
+    ground.position.y = -1;
+    scene.add(ground);
+
     // ウィンドウサイズ変更時の処理
     window.addEventListener("resize", () => {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -50,6 +65,14 @@
       // 立方体を回転させる
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
+
+      // ボールの移動
+      let ballSpeed = 0.02;
+      let ballDirection = -1;
+      ball.position.y += ballSpeed * ballDirection;
+      if (ball.position.y > 2 || ball.position.y < -0.5) {
+        ballDirection *= -1;
+      }
 
       renderer.render(scene, camera);
     }
