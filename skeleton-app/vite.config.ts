@@ -39,15 +39,6 @@ export default defineConfig({
       },
     },
   },
-  resolve: {
-    alias: {
-      fs: "browserfs/dist/shims/fs.js",
-      path: "path-browserify",
-    },
-  },
-  optimizeDeps: {
-    include: ["browserfs", "path-browserify"],
-  },
   plugins: [
     sveltekit(),
     purgeCss(),
