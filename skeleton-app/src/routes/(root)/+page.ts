@@ -19,6 +19,11 @@ const contents: Content[] = [
     route: "/simple",
   },
   {
+    title: "ammo",
+    action: "navigate",
+    route: "/ammo",
+  },
+  {
     title: "github repository",
     action: "redirect",
     route: GITHUB_REPO_URL,
