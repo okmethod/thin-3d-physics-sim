@@ -53,6 +53,8 @@
   "dependencies": {
     "@floating-ui/dom": "1.6.8",
     "ammo.js": "^0.0.10",
+    "browserfs": "^1.4.3",
+    "path-browserify": "^1.0.1",
     "three": "^0.167.1"
   }
 }
