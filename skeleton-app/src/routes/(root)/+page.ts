@@ -14,9 +14,9 @@ export interface ContentButtonProps {
 
 const contents: Content[] = [
   {
-    title: "simple",
+    title: "three",
     action: "navigate",
-    route: "/simple",
+    route: "/three",
   },
   {
     title: "ammo",
