@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-  <title>My Static WebSite</title>
+  <title>3D Physics Simulation</title>
 </svelte:head>
 
 <Modal />
