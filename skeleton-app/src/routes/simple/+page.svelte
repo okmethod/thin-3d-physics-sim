@@ -23,8 +23,7 @@
     renderContainer.appendChild(renderer.domElement);
 
     // Ammo.jsの初期化
-    const AmmoModule = await import("ammo.js");
-    const Ammo = AmmoModule.default;
+    const Ammo = await import("ammo.js");
 
     // 物理ワールドの作成
     const collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
