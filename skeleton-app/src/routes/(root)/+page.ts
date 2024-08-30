@@ -24,6 +24,11 @@ const contents: Content[] = [
     route: "/ammo",
   },
   {
+    title: "playCanvas",
+    action: "navigate",
+    route: "/playcanvas",
+  },
+  {
     title: "github repository",
     action: "redirect",
     route: GITHUB_REPO_URL,
