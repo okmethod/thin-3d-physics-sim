@@ -5,7 +5,10 @@
   let canvas: HTMLCanvasElement;
 
   onMount(() => {
-    const app = new pc.Application(canvas);
+    const app = new pc.Application(canvas, {
+      mouse: new pc.Mouse(canvas),
+      touch: new pc.TouchDevice(canvas),
+    });
 
     // fill the available space at full resolution
     app.setCanvasFillMode(pc.FILLMODE_NONE);
@@ -34,6 +37,53 @@
     light.addComponent("light");
     app.root.addChild(light);
     light.setEulerAngles(45, 0, 0);
+
+    // camera control variables
+    let lastX = 0;
+    let lastY = 0;
+    let isDragging = false;
+
+    // mouse events
+    if (app.mouse) {
+      app.mouse.on(pc.EVENT_MOUSEDOWN, (event) => {
+        isDragging = true;
+        lastX = event.x;
+        lastY = event.y;
+      });
+      app.mouse.on(pc.EVENT_MOUSEMOVE, (event) => {
+        if (isDragging) {
+          const dx = event.x - lastX;
+          const dy = event.y - lastY;
+          camera.rotateLocal(dy * 0.1, dx * 0.1, 0);
+          lastX = event.x;
+          lastY = event.y;
+        }
+      });
+      app.mouse.on(pc.EVENT_MOUSEUP, () => {
+        isDragging = false;
+      });
+    }
+
+    // touch events
+    if (app.touch) {
+      app.touch.on(pc.EVENT_TOUCHSTART, (event) => {
+        isDragging = true;
+        lastX = event.touches[0].x;
+        lastY = event.touches[0].y;
+      });
+      app.touch.on(pc.EVENT_TOUCHMOVE, (event) => {
+        if (isDragging && event.touches.length === 1) {
+          const dx = event.touches[0].x - lastX;
+          const dy = event.touches[0].y - lastY;
+          camera.rotateLocal(dy * 0.1, dx * 0.1, 0);
+          lastX = event.touches[0].x;
+          lastY = event.touches[0].y;
+        }
+      });
+      app.touch.on(pc.EVENT_TOUCHEND, () => {
+        isDragging = false;
+      });
+    }
 
     // rotate the box according to the delta time since the last frame
     app.on("update", (dt) => box.rotate(10 * dt, 20 * dt, 30 * dt));
