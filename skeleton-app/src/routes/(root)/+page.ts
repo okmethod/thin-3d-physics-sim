@@ -29,6 +29,11 @@ const contents: Content[] = [
     route: "/playcanvas",
   },
   {
+    title: "marumain",
+    action: "navigate",
+    route: "/marumain",
+  },
+  {
     title: "github repository",
     action: "redirect",
     route: GITHUB_REPO_URL,
