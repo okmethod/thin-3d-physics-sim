@@ -15,12 +15,13 @@
     // fill the available space at full resolution
     app.setCanvasFillMode(pc.FILLMODE_NONE);
     app.setCanvasResolution(pc.RESOLUTION_AUTO);
+    // window.addEventListener("resize", () => app.resizeCanvas());
 
-    // ensure canvas is resized when window changes size
-    window.addEventListener("resize", () => app.resizeCanvas());
-
-    // create marumain entity
-    const marumain = createMarumainEntity(app);
+    // Enable physics
+    if (app.systems.rigidbody) {
+      console.log("Rigidbody system enabled");
+      app.systems.rigidbody.gravity.set(0, -9.8, 0);
+    }
 
     // create camera entity
     const camera = new pc.Entity("camera");
@@ -28,7 +29,9 @@
       clearColor: new pc.Color(0.1, 0.2, 0.3),
     });
     app.root.addChild(camera);
-    camera.setPosition(0, 0, 3);
+    camera.setPosition(0, 5, 5); // Set camera position above the scene
+    camera.setEulerAngles(-30, 0, 0); // Rotate camera to look straight down
+    addMoveCameraEvents(app, camera);
 
     // create directional light entity
     const light = new pc.Entity("light");
@@ -36,9 +39,31 @@
     app.root.addChild(light);
     light.setEulerAngles(45, 0, 0);
 
-    addMoveCameraEvents(app, camera);
+    // create ground entity
+    const ground = new pc.Entity("ground");
+    ground.addComponent("model", {
+      type: "box",
+    });
+    const brownMaterial = new pc.StandardMaterial();
+    brownMaterial.diffuse = new pc.Color(0.6, 0.3, 0.1); // Brown color
+    brownMaterial.update();
+    if (ground.model) ground.model.model.meshInstances[0].material = brownMaterial;
+    ground.addComponent("rigidbody", {
+      type: "static",
+    });
+    ground.addComponent("collision", {
+      type: "box",
+      halfExtents: new pc.Vec3(50, 1, 50),
+    });
+    app.root.addChild(ground);
+    ground.setLocalScale(10, 2, 10);
+    ground.setPosition(0, -1, 0);
 
-    // rotate the box according to the delta time since the last frame
+    // create marumain entity
+    const marumain = createMarumainEntity(app, true);
+    marumain.setPosition(0, 3, 0);
+
+    // rotate the marumain according to the delta time since the last frame
     app.on("update", (dt) => marumain.rotate(10 * dt, 20 * dt, 30 * dt));
 
     app.start();
