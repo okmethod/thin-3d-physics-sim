@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import * as pc from "playcanvas";
   import createMarumainEntity from "$lib/entities/createMarumainEntity";
+  import addMoveCameraEvents from "$lib/events/moveCamera";
 
   let canvas: HTMLCanvasElement;
 
@@ -35,52 +36,7 @@
     app.root.addChild(light);
     light.setEulerAngles(45, 0, 0);
 
-    // camera control variables
-    let lastX = 0;
-    let lastY = 0;
-    let isDragging = false;
-
-    // mouse events
-    if (app.mouse) {
-      app.mouse.on(pc.EVENT_MOUSEDOWN, (event) => {
-        isDragging = true;
-        lastX = event.x;
-        lastY = event.y;
-      });
-      app.mouse.on(pc.EVENT_MOUSEMOVE, (event) => {
-        if (isDragging) {
-          const dx = event.x - lastX;
-          const dy = event.y - lastY;
-          camera.rotateLocal(dy * 0.1, dx * 0.1, 0);
-          lastX = event.x;
-          lastY = event.y;
-        }
-      });
-      app.mouse.on(pc.EVENT_MOUSEUP, () => {
-        isDragging = false;
-      });
-    }
-
-    // touch events
-    if (app.touch) {
-      app.touch.on(pc.EVENT_TOUCHSTART, (event) => {
-        isDragging = true;
-        lastX = event.touches[0].x;
-        lastY = event.touches[0].y;
-      });
-      app.touch.on(pc.EVENT_TOUCHMOVE, (event) => {
-        if (isDragging && event.touches.length === 1) {
-          const dx = event.touches[0].x - lastX;
-          const dy = event.touches[0].y - lastY;
-          camera.rotateLocal(dy * 0.1, dx * 0.1, 0);
-          lastX = event.touches[0].x;
-          lastY = event.touches[0].y;
-        }
-      });
-      app.touch.on(pc.EVENT_TOUCHEND, () => {
-        isDragging = false;
-      });
-    }
+    addMoveCameraEvents(app, camera);
 
     // rotate the box according to the delta time since the last frame
     app.on("update", (dt) => marumain.rotate(10 * dt, 20 * dt, 30 * dt));
