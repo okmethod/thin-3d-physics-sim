@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import * as pc from "playcanvas";
+  import Icon from "@iconify/svelte";
   import createMarumainEntity from "$lib/entities/createMarumainEntity";
   import addMoveCameraEvents from "$lib/events/moveCamera";
 
@@ -14,11 +15,9 @@
     const marumain = createMarumainEntity(app, new pc.Vec3(0, 0, 0), false);
 
     // rotate the marumain according to the delta time since the last frame
-    let accelerater = 1;
     app.on("update", (dt) => {
       if (marumain) {
         marumain.rotate((100 + accelerater) * dt, 20 * dt, 30 * dt);
-        // accelerater += 0.5;
       }
     });
     app.start();
@@ -57,6 +56,11 @@
 
     return app;
   }
+
+  let accelerater = 0;
+  function accelerate() {
+    accelerater += 50;
+  }
 </script>
 
 <div class="cRouteBodyStyle">
@@ -64,6 +68,22 @@
   <div class="cTitlePartStyle md:!mb-4">
     <h1 class="cTitleStyle md:!text-3xl">rotate-marumain</h1>
   </div>
+
+  <!-- button -->
+  <div class="flex items-center justify-center">
+    <div class="cInputFormAndMessagePartStyle">
+      <span class="text-lg">Accelerate</span>
+      <form on:submit={accelerate}>
+        <button type="submit" class="cIconButtonStyle">
+          <div class="cIconDivStyle">
+            <Icon icon="mdi:pokeball" class="cIconStyle" />
+          </div>
+        </button>
+      </form>
+      <span class="text-right w-16 text-lg">{100 + accelerater} %</span>
+    </div>
+  </div>
+
   <!-- playCanvas -->
   <canvas bind:this={canvas} class="w-96 h-96 border border-black"></canvas>
 </div>
