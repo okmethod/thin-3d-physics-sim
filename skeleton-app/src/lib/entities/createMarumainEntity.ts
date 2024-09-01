@@ -6,18 +6,6 @@ function createMarumainEntity(app: pc.Application, affectedPhysics: boolean): pc
   marumain.addComponent("model", {
     type: "sphere",
   });
-
-  if (affectedPhysics) {
-    marumain.addComponent("rigidbody", {
-      type: "dynamic",
-      mass: 1,
-    });
-    marumain.addComponent("collision", {
-      type: "sphere",
-      radius: 0.5,
-    });
-  }
-
   app.root.addChild(marumain);
 
   const textureAsset = new pc.Asset("marumain_texture", "texture", {
@@ -30,9 +18,23 @@ function createMarumainEntity(app: pc.Application, affectedPhysics: boolean): pc
     material.diffuseMap = textureAsset.resource;
     material.update();
 
-    if (marumain.model) marumain.model.model.meshInstances[0].material = material;
+    if (marumain.model) {
+      const meshInstance = marumain.model.model.meshInstances[0];
+      meshInstance.material = material;
+    }
   });
   app.assets.load(textureAsset);
+
+  if (affectedPhysics) {
+    marumain.addComponent("rigidbody", {
+      type: "dynamic",
+      mass: 1,
+    });
+    marumain.addComponent("collision", {
+      type: "sphere",
+      radius: 0.5,
+    });
+  }
 
   return marumain;
 }

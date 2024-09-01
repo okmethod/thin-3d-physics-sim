@@ -7,6 +7,10 @@
   let canvas: HTMLCanvasElement;
 
   onMount(() => {
+    initializeApp();
+  });
+
+  function initializeApp() {
     const app = new pc.Application(canvas, {
       mouse: new pc.Mouse(canvas),
       touch: new pc.TouchDevice(canvas),
@@ -18,9 +22,9 @@
     // window.addEventListener("resize", () => app.resizeCanvas());
 
     // Enable physics
-    if (app.systems.rigidbody) {
+    if (app.systems.rigidbody && app.systems.collision) {
       console.log("Rigidbody system enabled");
-      app.systems.rigidbody.gravity.set(0, -9.8, 0);
+      app.systems.rigidbody.gravity.set(0, -9.81, 0);
     }
 
     // create camera entity
@@ -44,30 +48,38 @@
     ground.addComponent("model", {
       type: "box",
     });
-    const brownMaterial = new pc.StandardMaterial();
-    brownMaterial.diffuse = new pc.Color(0.6, 0.3, 0.1); // Brown color
-    brownMaterial.update();
-    if (ground.model) ground.model.model.meshInstances[0].material = brownMaterial;
+    const material = new pc.StandardMaterial();
+    material.diffuse = new pc.Color(0.6, 0.3, 0.1); // Brown color
+    material.update();
+    if (ground.model) {
+      const meshInstance = ground.model.model.meshInstances[0];
+      meshInstance.material = material;
+    }
+    app.root.addChild(ground);
+    ground.setLocalScale(10, 2, 10);
+    ground.setPosition(0, -1, 0);
+
     ground.addComponent("rigidbody", {
       type: "static",
     });
     ground.addComponent("collision", {
       type: "box",
-      halfExtents: new pc.Vec3(50, 1, 50),
+      halfExtents: new pc.Vec3(5, 1, 5),
     });
-    app.root.addChild(ground);
-    ground.setLocalScale(10, 2, 10);
-    ground.setPosition(0, -1, 0);
 
     // create marumain entity
     const marumain = createMarumainEntity(app, true);
     marumain.setPosition(0, 3, 0);
 
     // rotate the marumain according to the delta time since the last frame
-    app.on("update", (dt) => marumain.rotate(10 * dt, 20 * dt, 30 * dt));
+    app.on("update", (dt) => {
+      if (marumain) {
+        marumain.rotate(100 * dt, 20 * dt, 30 * dt);
+      }
+    });
 
     app.start();
-  });
+  }
 </script>
 
 <div class="cRouteBodyStyle">
