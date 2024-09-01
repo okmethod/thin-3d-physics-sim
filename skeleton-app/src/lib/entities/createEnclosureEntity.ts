@@ -35,6 +35,7 @@ function createWallEntity(localPos: pc.Vec3, localScale: pc.Vec3): pc.Entity {
   });
   wall.addComponent("collision", {
     type: "box",
+    enabled: false,
     halfExtents: scaledVec3(localScale, 0.5),
   });
 

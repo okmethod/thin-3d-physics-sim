@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
+  import { SlideToggle } from "@skeletonlabs/skeleton";
   import * as pc from "playcanvas";
   import Icon from "@iconify/svelte";
   import loadAmmo from "$lib/utils/loadAmmo.client";
@@ -10,8 +11,11 @@
 
   let app: pc.Application;
   let canvas: HTMLCanvasElement;
-  let maruMetaPhysics: pc.Entity;
 
+  let enclosure: pc.Entity;
+  let enclosed = false;
+
+  let maruMetaPhysics: pc.Entity;
   const spawnPos = new pc.Vec3(0, 2, 0);
 
   let enablePhysics = true;
@@ -79,7 +83,7 @@
     const enclosurePosition = new pc.Vec3(0, groundPosition.y + groundSize.y / 2, 0);
     const wallHeight = 10;
     const enclosureSize = new pc.Vec3(groundSize.x, wallHeight, groundSize.z);
-    void createEnclosureEntity(app, enclosurePosition, enclosureSize);
+    enclosure = createEnclosureEntity(app, enclosurePosition, enclosureSize);
 
     return app;
   }
@@ -101,6 +105,15 @@
       entity.destroy();
     }
   }
+
+  function updateEnclosed() {
+    enclosure.children.forEach((child) => {
+      const wall = child as pc.Entity;
+      if (wall.collision) {
+        wall.collision.enabled = enclosed;
+      }
+    });
+  }
 </script>
 
 <div class="cRouteBodyStyle">
@@ -110,19 +123,37 @@
   </div>
 
   <!-- button -->
-  <div class="flex items-center justify-center">
-    <div class="cInputFormAndMessagePartStyle">
-      <span class="text-lg">Spawn sphere</span>
-      <form on:submit={spawnMaru}>
-        <button type="submit" class="cIconButtonStyle">
-          <div class="cIconDivStyle">
-            <Icon icon="mdi:pokeball" class="cIconStyle" />
-          </div>
-        </button>
-      </form>
+  <div class="flex items-center justify-center space-x-4">
+    <div>
+      <div class="cInputFormAndMessagePartStyle">
+        <span class="text-lg">Spawn sphere</span>
+        <form on:submit={spawnMaru}>
+          <button type="submit" class="cIconButtonStyle">
+            <div class="cIconDivStyle">
+              <Icon icon="mdi:pokeball" class="cIconStyle" />
+            </div>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div>
+      <div class="cInputFormAndMessagePartStyle">
+        <span class="text-lg">Enclose World</span>
+        <SlideToggle
+          name="encloseToggle"
+          bind:checked={enclosed}
+          on:change={updateEnclosed}
+          size="sm"
+          background="bg-gray-700"
+          active="bg-blue-500"
+          border="border border-gray-300"
+          rounded="rounded-full"
+          label="Toggle Enclosure"
+        />
+      </div>
     </div>
   </div>
 
   <!-- playCanvas -->
-  <canvas bind:this={canvas} class="w-[600px] h-[600px] border border-black"></canvas>
+  <canvas bind:this={canvas} class="w-96 h-96 md:w-[600px] md:h-[600px] border border-black"></canvas>
 </div>
