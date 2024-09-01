@@ -29,6 +29,11 @@ const contents: Content[] = [
     route: "/playcanvas",
   },
   {
+    title: "rotate-marumain",
+    action: "navigate",
+    route: "/rotate-marumain",
+  },
+  {
     title: "bounce-marumain",
     action: "navigate",
     route: "/bounce-marumain",
