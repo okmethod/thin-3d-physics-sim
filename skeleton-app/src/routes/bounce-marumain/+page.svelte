@@ -22,6 +22,10 @@
     }
     app = initializeApp(canvas, enablePhysics);
 
+    app.on("update", () => {
+      app.root.children.forEach(removeFallenNode);
+    });
+
     void spawnMarumain();
   });
 
@@ -71,6 +75,14 @@
   function spawnMarumain(): void {
     // create marumain entity
     void createMarumainEntity(app, new pc.Vec3(0, 2, 0), enablePhysics);
+  }
+
+  function removeFallenNode(node: pc.GraphNode): void {
+    const entity = node as pc.Entity;
+    if (entity.getPosition().y < -10) {
+      app.root.removeChild(entity);
+      entity.destroy();
+    }
   }
 </script>
 
