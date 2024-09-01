@@ -6,11 +6,12 @@
   import createMarumainEntity from "$lib/entities/createMarumainEntity";
   import addMoveCameraEvents from "$lib/events/moveCamera";
 
+  let app: pc.Application;
   let canvas: HTMLCanvasElement;
 
-  let affectedPhysics = false;
+  let enablePhysics = true;
   onMount(async () => {
-    if (affectedPhysics) {
+    if (enablePhysics) {
       try {
         await loadAmmo();
       } catch (error) {
@@ -18,13 +19,20 @@
         return;
       }
     }
-    initializeApp();
+    app = initializeApp(canvas, enablePhysics);
+
+    // create marumain entity
+    const marumain = createMarumainEntity(app, false);
+    marumain.setPosition(0, 3, 0);
+    app.on("update", (dt) => {
+      if (marumain) marumain.rotate(100 * dt, 20 * dt, 30 * dt);
+    });
   });
 
-  function initializeApp() {
-    const app = new pc.Application(canvas, {
-      mouse: new pc.Mouse(canvas),
-      touch: new pc.TouchDevice(canvas),
+  function initializeApp(canvasElement: HTMLCanvasElement, enablePhysics: boolean): pc.Application {
+    const app = new pc.Application(canvasElement, {
+      mouse: new pc.Mouse(canvasElement),
+      touch: new pc.TouchDevice(canvasElement),
     });
 
     // fill the available space at full resolution
@@ -33,9 +41,10 @@
     // window.addEventListener("resize", () => app.resizeCanvas());
 
     // Enable physics
-    if (app.systems.rigidbody && app.systems.collision) {
+    if (enablePhysics && app.systems.rigidbody && app.systems.collision) {
       app.systems.rigidbody.gravity.set(0, -9.81, 0);
     }
+    app.start();
 
     // create camera entity
     const camera = new pc.Entity("camera");
@@ -54,24 +63,10 @@
     light.setEulerAngles(45, 0, 0);
 
     // create ground entity
-    const ground = createGroundEntity(app, affectedPhysics);
+    const ground = createGroundEntity(app, enablePhysics);
     ground.setPosition(0, -1, 0);
 
-    // create marumain entity
-    const marumain = createMarumainEntity(app, affectedPhysics);
-    marumain.setPosition(0, 3, 0);
-
-    // rotate the marumain according to the delta time since the last frame
-    app.on("update", (dt) => {
-      if (affectedPhysics && app.systems.rigidbody && app.systems.collision) {
-        app.systems.rigidbody.onUpdate(dt);
-      }
-      if (marumain) {
-        marumain.rotate(100 * dt, 20 * dt, 30 * dt);
-      }
-    });
-
-    app.start();
+    return app;
   }
 </script>
 
