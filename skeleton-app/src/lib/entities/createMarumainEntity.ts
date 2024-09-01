@@ -1,21 +1,6 @@
 import * as pc from "playcanvas";
+import { createTextureMaterial } from "$lib/utils/material";
 import marumaunTextureUrl from "$lib/textures/marumain.png";
-
-function createTextureMaterial(app: pc.Application, imageUrl: string): pc.StandardMaterial {
-  const material = new pc.StandardMaterial();
-
-  const textureAsset = new pc.Asset("marumain_texture", "texture", {
-    url: imageUrl,
-  });
-  app.assets.add(textureAsset);
-  textureAsset.ready(() => {
-    material.diffuseMap = textureAsset.resource;
-    material.update();
-  });
-  app.assets.load(textureAsset);
-
-  return material;
-}
 
 function createMarumainEntity(app: pc.Application, pos: pc.Vec3, affectedPhysics: boolean): pc.Entity {
   const marumainTexture = createTextureMaterial(app, marumaunTextureUrl);

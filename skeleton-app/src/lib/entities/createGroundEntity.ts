@@ -1,20 +1,15 @@
 import * as pc from "playcanvas";
+import { createTextureMaterial } from "$lib/utils/material";
 import { scaledVec3 } from "$lib/utils/vec";
-
-function createColorMaterial(color: pc.Color): pc.StandardMaterial {
-  const material = new pc.StandardMaterial();
-  material.diffuse = color;
-  material.update();
-  return material;
-}
+import checkerTextureUrl from "$lib/textures/checker64.png";
 
 function createGroundEntity(app: pc.Application, pos: pc.Vec3): pc.Entity {
-  const gray = createColorMaterial(new pc.Color(0.7, 0.7, 0.7));
+  const checkerTexture = createTextureMaterial(app, checkerTextureUrl);
 
   const ground = new pc.Entity("ground");
   ground.addComponent("render", {
     type: "box",
-    material: gray,
+    material: checkerTexture,
   });
   ground.setPosition(pos);
 
