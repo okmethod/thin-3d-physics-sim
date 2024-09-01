@@ -1,4 +1,5 @@
 import * as pc from "playcanvas";
+import { scaledVec3 } from "$lib/utils/vec";
 
 function createColorMaterial(color: pc.Color): pc.StandardMaterial {
   const material = new pc.StandardMaterial();
@@ -7,7 +8,7 @@ function createColorMaterial(color: pc.Color): pc.StandardMaterial {
   return material;
 }
 
-function createGroundEntity(app: pc.Application, affectedPhysics: boolean): pc.Entity {
+function createGroundEntity(app: pc.Application, pos: pc.Vec3): pc.Entity {
   const gray = createColorMaterial(new pc.Color(0.7, 0.7, 0.7));
 
   const ground = new pc.Entity("ground");
@@ -15,19 +16,19 @@ function createGroundEntity(app: pc.Application, affectedPhysics: boolean): pc.E
     type: "box",
     material: gray,
   });
+  ground.setPosition(pos);
 
-  ground.setLocalScale(10, 2, 10);
+  const halfExtents = new pc.Vec3(5, 0.5, 5);
+  ground.setLocalScale(scaledVec3(halfExtents, 2));
 
-  if (affectedPhysics) {
-    ground.addComponent("rigidbody", {
-      type: "static",
-      restitution: 0.5,
-    });
-    ground.addComponent("collision", {
-      type: "box",
-      halfExtents: new pc.Vec3(5, 1, 5),
-    });
-  }
+  ground.addComponent("rigidbody", {
+    type: "static",
+    restitution: 1,
+  });
+  ground.addComponent("collision", {
+    type: "box",
+    halfExtents: halfExtents,
+  });
 
   app.root.addChild(ground);
 

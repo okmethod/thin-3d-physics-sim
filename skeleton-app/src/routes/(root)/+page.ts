@@ -29,9 +29,9 @@ const contents: Content[] = [
     route: "/playcanvas",
   },
   {
-    title: "marumain",
+    title: "bounce-marumain",
     action: "navigate",
-    route: "/marumain",
+    route: "/bounce-marumain",
   },
   {
     title: "github repository",

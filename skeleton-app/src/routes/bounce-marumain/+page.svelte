@@ -22,11 +22,7 @@
     app = initializeApp(canvas, enablePhysics);
 
     // create marumain entity
-    const marumain = createMarumainEntity(app, false);
-    marumain.setPosition(0, 3, 0);
-    app.on("update", (dt) => {
-      if (marumain) marumain.rotate(100 * dt, 20 * dt, 30 * dt);
-    });
+    void createMarumainEntity(app, new pc.Vec3(0, 2, 0), enablePhysics);
   });
 
   function initializeApp(canvasElement: HTMLCanvasElement, enablePhysics: boolean): pc.Application {
@@ -52,8 +48,8 @@
       clearColor: new pc.Color(0.1, 0.2, 0.3),
     });
     app.root.addChild(camera);
-    camera.setPosition(0, 5, 5); // Set camera position above the scene
-    camera.setEulerAngles(-30, 0, 0); // Rotate camera to look straight down
+    camera.setPosition(0, 3, 15); // Set camera position above the scene
+    camera.setEulerAngles(-15, 0, 0); // Rotate camera to look straight down
     addMoveCameraEvents(app, camera);
 
     // create directional light entity
@@ -63,8 +59,7 @@
     light.setEulerAngles(45, 0, 0);
 
     // create ground entity
-    const ground = createGroundEntity(app, enablePhysics);
-    ground.setPosition(0, -1, 0);
+    void createGroundEntity(app, new pc.Vec3(0, -1, 0));
 
     return app;
   }
@@ -73,8 +68,8 @@
 <div class="cRouteBodyStyle">
   <!-- タイトル部 -->
   <div class="cTitlePartStyle md:!mb-4">
-    <h1 class="cTitleStyle md:!text-3xl">PlayCanvas WebGL Game Engine</h1>
+    <h1 class="cTitleStyle md:!text-3xl">bounce-marumain</h1>
   </div>
   <!-- playCanvas -->
-  <canvas bind:this={canvas} class="w-80 h-80 border border-black"></canvas>
+  <canvas bind:this={canvas} class="w-[600px] h-[600px] border border-black"></canvas>
 </div>

@@ -17,7 +17,7 @@ function createTextureMaterial(app: pc.Application, imageUrl: string): pc.Standa
   return material;
 }
 
-function createMarumainEntity(app: pc.Application, affectedPhysics: boolean): pc.Entity {
+function createMarumainEntity(app: pc.Application, pos: pc.Vec3, affectedPhysics: boolean): pc.Entity {
   const marumainTexture = createTextureMaterial(app, marumaunTextureUrl);
 
   const marumain = new pc.Entity("sphere");
@@ -25,12 +25,13 @@ function createMarumainEntity(app: pc.Application, affectedPhysics: boolean): pc
     type: "sphere",
     material: marumainTexture,
   });
+  marumain.setPosition(pos);
 
   if (affectedPhysics) {
     marumain.addComponent("rigidbody", {
       type: "dynamic",
       mass: 1,
-      restitution: 0.5,
+      restitution: 1,
     });
     marumain.addComponent("collision", {
       type: "sphere",
