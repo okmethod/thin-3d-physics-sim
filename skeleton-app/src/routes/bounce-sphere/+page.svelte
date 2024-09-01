@@ -9,6 +9,9 @@
 
   let app: pc.Application;
   let canvas: HTMLCanvasElement;
+  let maruMetaPhysics: pc.Entity;
+
+  const spawnPos = new pc.Vec3(0, 2, 0);
 
   let enablePhysics = true;
   onMount(async () => {
@@ -26,7 +29,11 @@
       app.root.children.forEach(removeFallenNode);
     });
 
-    void spawnMaru();
+    // create maru origin entity
+    const maruOrigin = createMaruEntity(app, spawnPos, enablePhysics);
+
+    // origin は いずれ命尽きる定め...
+    maruMetaPhysics = maruOrigin.clone();
   });
 
   function initializeApp(canvasElement: HTMLCanvasElement, enablePhysics: boolean): pc.Application {
@@ -73,8 +80,9 @@
   });
 
   function spawnMaru(): void {
-    // create maru entity
-    void createMaruEntity(app, new pc.Vec3(0, 2, 0), enablePhysics);
+    const maruClone = maruMetaPhysics.clone();
+    maruClone.setPosition(spawnPos);
+    app.root.addChild(maruClone);
   }
 
   function removeFallenNode(node: pc.GraphNode): void {
