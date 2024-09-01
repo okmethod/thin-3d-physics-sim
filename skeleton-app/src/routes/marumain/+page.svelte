@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import * as pc from "playcanvas";
+  import createGroundEntity from "$lib/entities/createGroundEntity";
   import createMarumainEntity from "$lib/entities/createMarumainEntity";
   import addMoveCameraEvents from "$lib/events/moveCamera";
 
@@ -44,28 +45,8 @@
     light.setEulerAngles(45, 0, 0);
 
     // create ground entity
-    const ground = new pc.Entity("ground");
-    ground.addComponent("model", {
-      type: "box",
-    });
-    const material = new pc.StandardMaterial();
-    material.diffuse = new pc.Color(0.6, 0.3, 0.1); // Brown color
-    material.update();
-    if (ground.model) {
-      const meshInstance = ground.model.model.meshInstances[0];
-      meshInstance.material = material;
-    }
-    app.root.addChild(ground);
-    ground.setLocalScale(10, 2, 10);
+    const ground = createGroundEntity(app, true);
     ground.setPosition(0, -1, 0);
-
-    ground.addComponent("rigidbody", {
-      type: "static",
-    });
-    ground.addComponent("collision", {
-      type: "box",
-      halfExtents: new pc.Vec3(5, 1, 5),
-    });
 
     // create marumain entity
     const marumain = createMarumainEntity(app, true);
