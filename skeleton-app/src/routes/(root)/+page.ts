@@ -14,17 +14,17 @@ export interface ContentButtonProps {
 
 const contents: Content[] = [
   {
-    title: "three",
+    title: "three.js",
     action: "navigate",
     route: "/three",
   },
   {
-    title: "ammo",
+    title: "ammo.js",
     action: "navigate",
     route: "/ammo",
   },
   {
-    title: "playCanvas",
+    title: "playcanvas/engine",
     action: "navigate",
     route: "/playcanvas",
   },
