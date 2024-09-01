@@ -34,7 +34,7 @@
     // fill the available space at full resolution
     app.setCanvasFillMode(pc.FILLMODE_NONE);
     app.setCanvasResolution(pc.RESOLUTION_AUTO);
-    // window.addEventListener("resize", () => app.resizeCanvas());
+    window.addEventListener("resize", () => app.resizeCanvas());
 
     // Enable physics
     if (enablePhysics && app.systems.rigidbody && app.systems.collision) {
