@@ -9,7 +9,11 @@ pc.WasmModule.setConfig("Ammo", {
 
 export function loadAmmo(): Promise<void> {
   return new Promise<void>((resolve) => {
-    pc.WasmModule.getInstance("Ammo", () => resolve());
+    pc.WasmModule.getInstance("Ammo", (instance: unknown) => {
+      console.log("Loaded Ammo.js successfully");
+      console.debug("moduleInstance:", instance);
+      resolve();
+    });
   });
 }
 
