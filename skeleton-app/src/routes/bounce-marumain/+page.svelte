@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import * as pc from "playcanvas";
+  import Icon from "@iconify/svelte";
   import loadAmmo from "$lib/utils/loadAmmo.client";
   import createGroundEntity from "$lib/entities/createGroundEntity";
   import createMarumainEntity from "$lib/entities/createMarumainEntity";
@@ -21,8 +22,7 @@
     }
     app = initializeApp(canvas, enablePhysics);
 
-    // create marumain entity
-    void createMarumainEntity(app, new pc.Vec3(0, 2, 0), enablePhysics);
+    void spawnMarumain();
   });
 
   function initializeApp(canvasElement: HTMLCanvasElement, enablePhysics: boolean): pc.Application {
@@ -67,6 +67,11 @@
   onDestroy(() => {
     if (app) app.destroy();
   });
+
+  function spawnMarumain(): void {
+    // create marumain entity
+    void createMarumainEntity(app, new pc.Vec3(0, 2, 0), enablePhysics);
+  }
 </script>
 
 <div class="cRouteBodyStyle">
@@ -74,6 +79,21 @@
   <div class="cTitlePartStyle md:!mb-4">
     <h1 class="cTitleStyle md:!text-3xl">bounce-marumain</h1>
   </div>
+
+  <!-- button -->
+  <div class="flex items-center justify-center">
+    <div class="cInputFormAndMessagePartStyle">
+      <span class="text-lg">Spawn Marumain</span>
+      <form on:submit={spawnMarumain}>
+        <button type="submit" class="cIconButtonStyle">
+          <div class="cIconDivStyle">
+            <Icon icon="mdi:pokeball" class="cIconStyle" />
+          </div>
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- playCanvas -->
   <canvas bind:this={canvas} class="w-[600px] h-[600px] border border-black"></canvas>
 </div>
