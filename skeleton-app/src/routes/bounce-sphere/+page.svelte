@@ -4,7 +4,7 @@
   import Icon from "@iconify/svelte";
   import loadAmmo from "$lib/utils/loadAmmo.client";
   import createGroundEntity from "$lib/entities/createGroundEntity";
-  import createMarumainEntity from "$lib/entities/createMarumainEntity";
+  import createMaruEntity from "$lib/entities/createMaruEntity";
   import addMoveCameraEvents from "$lib/events/moveCamera";
 
   let app: pc.Application;
@@ -26,7 +26,7 @@
       app.root.children.forEach(removeFallenNode);
     });
 
-    void spawnMarumain();
+    void spawnMaru();
   });
 
   function initializeApp(canvasElement: HTMLCanvasElement, enablePhysics: boolean): pc.Application {
@@ -72,9 +72,9 @@
     if (app) app.destroy();
   });
 
-  function spawnMarumain(): void {
-    // create marumain entity
-    void createMarumainEntity(app, new pc.Vec3(0, 2, 0), enablePhysics);
+  function spawnMaru(): void {
+    // create maru entity
+    void createMaruEntity(app, new pc.Vec3(0, 2, 0), enablePhysics);
   }
 
   function removeFallenNode(node: pc.GraphNode): void {
@@ -89,14 +89,14 @@
 <div class="cRouteBodyStyle">
   <!-- タイトル部 -->
   <div class="cTitlePartStyle md:!mb-4">
-    <h1 class="cTitleStyle md:!text-3xl">bounce-marumain</h1>
+    <h1 class="cTitleStyle md:!text-3xl">bounce-sphere</h1>
   </div>
 
   <!-- button -->
   <div class="flex items-center justify-center">
     <div class="cInputFormAndMessagePartStyle">
-      <span class="text-lg">Spawn Marumain</span>
-      <form on:submit={spawnMarumain}>
+      <span class="text-lg">Spawn sphere</span>
+      <form on:submit={spawnMaru}>
         <button type="submit" class="cIconButtonStyle">
           <div class="cIconDivStyle">
             <Icon icon="mdi:pokeball" class="cIconStyle" />

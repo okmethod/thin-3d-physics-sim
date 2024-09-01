@@ -10,7 +10,7 @@ export function createColorMaterial(color: pc.Color): pc.StandardMaterial {
 export function createTextureMaterial(app: pc.Application, imageUrl: string): pc.StandardMaterial {
   const material = new pc.StandardMaterial();
 
-  const textureAsset = new pc.Asset("marumain_texture", "texture", {
+  const textureAsset = new pc.Asset("maru_texture", "texture", {
     url: imageUrl,
   });
   app.assets.add(textureAsset);

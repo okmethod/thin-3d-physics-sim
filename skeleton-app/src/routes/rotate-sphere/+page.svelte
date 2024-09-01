@@ -2,7 +2,7 @@
   import { onMount, onDestroy } from "svelte";
   import * as pc from "playcanvas";
   import Icon from "@iconify/svelte";
-  import createMarumainEntity from "$lib/entities/createMarumainEntity";
+  import createMaruEntity from "$lib/entities/createMaruEntity";
   import addMoveCameraEvents from "$lib/events/moveCamera";
 
   let app: pc.Application;
@@ -11,13 +11,13 @@
   onMount(async () => {
     app = initializeApp(canvas);
 
-    // create marumain entity
-    const marumain = createMarumainEntity(app, new pc.Vec3(0, 0, 0), false);
+    // create maru entity
+    const maru = createMaruEntity(app, new pc.Vec3(0, 0, 0), false);
 
-    // rotate the marumain according to the delta time since the last frame
+    // rotate the maru according to the delta time since the last frame
     app.on("update", (dt) => {
-      if (marumain) {
-        marumain.rotate((100 + accelerater) * dt, 20 * dt, 30 * dt);
+      if (maru) {
+        maru.rotate((100 + accelerater) * dt, 20 * dt, 30 * dt);
       }
     });
     app.start();
@@ -58,7 +58,7 @@
   }
 
   let accelerater = 0;
-  function accelerate() {
+  function accelerate(): void {
     accelerater += 50;
   }
 </script>
@@ -66,7 +66,7 @@
 <div class="cRouteBodyStyle">
   <!-- タイトル部 -->
   <div class="cTitlePartStyle md:!mb-4">
-    <h1 class="cTitleStyle md:!text-3xl">rotate-marumain</h1>
+    <h1 class="cTitleStyle md:!text-3xl">rotate-sphere</h1>
   </div>
 
   <!-- button -->

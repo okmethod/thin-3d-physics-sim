@@ -29,14 +29,14 @@ const contents: Content[] = [
     route: "/playcanvas",
   },
   {
-    title: "rotate-marumain",
+    title: "rotate-sphere",
     action: "navigate",
-    route: "/rotate-marumain",
+    route: "/rotate-sphere",
   },
   {
-    title: "bounce-marumain",
+    title: "bounce-sphere",
     action: "navigate",
-    route: "/bounce-marumain",
+    route: "/bounce-sphere",
   },
   {
     title: "github repository",
