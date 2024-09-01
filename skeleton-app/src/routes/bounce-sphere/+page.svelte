@@ -4,6 +4,7 @@
   import Icon from "@iconify/svelte";
   import loadAmmo from "$lib/utils/loadAmmo.client";
   import createGroundEntity from "$lib/entities/createGroundEntity";
+  import createEnclosureEntity from "$lib/entities/createEnclosureEntity";
   import createMaruEntity from "$lib/entities/createMaruEntity";
   import addMoveCameraEvents from "$lib/events/moveCamera";
 
@@ -70,7 +71,15 @@
     light.setEulerAngles(45, 0, 0);
 
     // create ground entity
-    void createGroundEntity(app, new pc.Vec3(0, -1, 0));
+    const groundPosition = new pc.Vec3(0, -1, 0);
+    const groundSize = new pc.Vec3(10, 1, 10);
+    void createGroundEntity(app, groundPosition, groundSize);
+
+    // create enclosure entity
+    const enclosurePosition = new pc.Vec3(0, groundPosition.y + groundSize.y / 2, 0);
+    const wallHeight = 10;
+    const enclosureSize = new pc.Vec3(groundSize.x, wallHeight, groundSize.z);
+    void createEnclosureEntity(app, enclosurePosition, enclosureSize);
 
     return app;
   }
