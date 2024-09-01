@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import * as pc from "playcanvas";
   import createMarumainEntity from "$lib/entities/createMarumainEntity";
   import addMoveCameraEvents from "$lib/events/moveCamera";
@@ -22,6 +22,10 @@
       }
     });
     app.start();
+  });
+
+  onDestroy(() => {
+    app.destroy();
   });
 
   function initializeApp(canvasElement: HTMLCanvasElement): pc.Application {

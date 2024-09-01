@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import * as pc from "playcanvas";
   import loadAmmo from "$lib/utils/loadAmmo.client";
   import createGroundEntity from "$lib/entities/createGroundEntity";
@@ -63,6 +63,10 @@
 
     return app;
   }
+
+  onDestroy(() => {
+    app.destroy();
+  });
 </script>
 
 <div class="cRouteBodyStyle">

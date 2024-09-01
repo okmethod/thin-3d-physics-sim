@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import * as pc from "playcanvas";
 
+  let app: pc.Application;
   let canvas: HTMLCanvasElement;
 
   onMount(() => {
-    const app = new pc.Application(canvas, {
+    app = new pc.Application(canvas, {
       mouse: new pc.Mouse(canvas),
       touch: new pc.TouchDevice(canvas),
     });
@@ -89,6 +90,10 @@
     app.on("update", (dt) => box.rotate(10 * dt, 20 * dt, 30 * dt));
 
     app.start();
+  });
+
+  onDestroy(() => {
+    app.destroy();
   });
 </script>
 
