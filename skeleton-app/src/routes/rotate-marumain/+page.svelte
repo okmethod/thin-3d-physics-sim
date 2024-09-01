@@ -25,7 +25,7 @@
   });
 
   onDestroy(() => {
-    app.destroy();
+    if (app) app.destroy();
   });
 
   function initializeApp(canvasElement: HTMLCanvasElement): pc.Application {

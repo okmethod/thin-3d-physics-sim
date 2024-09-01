@@ -93,7 +93,7 @@
   });
 
   onDestroy(() => {
-    app.destroy();
+    if (app) app.destroy();
   });
 </script>
 
