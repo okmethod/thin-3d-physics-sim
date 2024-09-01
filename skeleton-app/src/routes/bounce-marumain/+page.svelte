@@ -13,7 +13,7 @@
   onMount(async () => {
     if (enablePhysics) {
       try {
-        await loadAmmo();
+        await loadAmmo(window.fetch);
       } catch (error) {
         console.error("Failed to load Ammo.js", error);
         return;
